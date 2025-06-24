@@ -74,25 +74,25 @@ const FilterSidebar = () => {
       </div>
 
 
-{/* Price Range */}
-<div>
-  <h2 className="text-lg font-semibold mb-3">Price Range</h2>
-  <div className="flex items-center justify-between text-sm mb-1">
-    <span>$0</span>
-    <span>${priceRange}</span>
-  </div>
-  <input
-    type="range"
-    min="0"
-    max="100"
-    value={priceRange}
-    onChange={(e) => setPriceRange(parseInt(e.target.value))}
-    className="w-full h-2 rounded-lg appearance-none"
-    style={{
-      background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${priceRange}%, #e5e7eb ${priceRange}%, #e5e7eb 100%)`,
-    }}
-  />
-</div>
+    {/* Price Range */}
+        <div>
+            <h2 className="text-lg font-semibold mb-3">Price Range</h2>
+            <div className="flex items-center justify-between text-sm mb-1">
+                <span>$0</span>
+                <span>${priceRange}</span>
+            </div>
+            <input
+                type="range"
+                min="0"
+                max="100"
+                value={priceRange}
+                onChange={(e) => setPriceRange(parseInt(e.target.value))}
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                style={{
+                background: `linear-gradient(to right, #000000 0%, #000000 ${priceRange}%, #e5e7eb ${priceRange}%, #e5e7eb 100%)`,
+                }}
+            />
+        </div>
 
 
       {/* Cuisine Checkboxes */}
