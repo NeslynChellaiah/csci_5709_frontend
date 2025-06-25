@@ -3,41 +3,35 @@ import RestaurantCard from '../components/restaurantCard';
 
 const Home = () => {
     return (
-        <main className="pt-16">
+        <main className="">
             <div className="flex">
                 {/* Sidebar */}
                 <div className="w-80 p-6">
-                <FilterSidebar />
+                    <FilterSidebar />
                 </div>
 
                 {/* Main content */}
-                <div className="flex-1 p-8">
-                    <h2 className="text-xl font-semibold mb-4">Book your Dine-In</h2>
-                    <div className="flex flex-wrap gap-6">
-                        <RestaurantCard
-                            name="The Taco Place"
-                            distance="1 km"
-                            priceRange="$10–15 Per Person"
-                            imageUrl="https://cdn.pixabay.com/photo/2023/05/15/04/44/tacos-7994117_1280.jpg"
-                        />
-                        <RestaurantCard
-                            name="is it Spicy ?"
-                            distance="1.5 km"
-                            priceRange="$20–25 Per Person"
-                            imageUrl="https://cdn.pixabay.com/photo/2023/05/15/04/44/tacos-7994117_1280.jpg"
-                        />
-                        <RestaurantCard
-                            name="Taco Bell"
-                            distance="2 km"
-                            priceRange="$10–20 Per Person"
-                            imageUrl="https://cdn.pixabay.com/photo/2023/05/15/04/44/tacos-7994117_1280.jpg"
-                        />
+                <div className="flex-1 mt-6">
+                    {/* Scrollable cards section */}
+                    <div className="overflow-y-auto max-h-[calc(100vh-8rem)] pr-2">
+                        <div className="flex flex-wrap gap-6">
+                            {[1, 2, 3, 4, 5, 5, 6, 7, 8, 8, 99, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0].map((_, idx) => {
+                                return (
+                                    <RestaurantCard
+                                        key={idx}
+                                        name="The Taco Place"
+                                        distance="1 km"
+                                        priceRange="$10–15 Per Person"
+                                        imageUrl="https://cdn.pixabay.com/photo/2023/05/15/04/44/tacos-7994117_1280.jpg"
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
-
-      );
-}
+    );
+};
 
 export default Home;
