@@ -4,9 +4,11 @@ import Reservation from '../components/reservation'
 
 const Restaurant = () => {
   return (
-    <div>
-      <ImageCarousel />
-    <Reservation />  
+    <div className="flex-1">
+      <div className="overflow-y-auto max-h-[calc(100vh-4rem)] pr-2">
+        <ImageCarousel />
+        <Reservation />
+      </div>
     </div>
   )
 }
