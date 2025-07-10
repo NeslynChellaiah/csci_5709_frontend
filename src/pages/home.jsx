@@ -1,7 +1,28 @@
+import { useEffect } from 'react';
 import FilterSidebar from '../components/filterBar';
 import RestaurantCard from '../components/restaurantCard';
+import axios from 'axios';
+import { BASE_URL, getToken } from '../../constants';
 
 const Home = () => {
+
+    useEffect(() => {
+        const fetchRestaurants = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL}/restaurants`, {
+                    headers: {
+                        Authorization: getToken(),
+                    },
+                });
+                console.log('Fetched restaurants:', response.data);
+            } catch (error) {
+                console.error('Error fetching restaurants:', error);
+            }
+        };
+
+        fetchRestaurants();
+    }, []);
+
     return (
         <main className="">
             <div className="flex">
