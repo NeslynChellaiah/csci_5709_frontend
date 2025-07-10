@@ -1,0 +1,23 @@
+// src/store/effects/restaurantEffects.js
+
+import axios from 'axios';
+import {
+  setRestaurants,
+  setLoading,
+  setError,
+} from '../actions/restaurantActions';
+import { BASE_URL, getToken } from '../../../constants';
+
+export const fetchRestaurants = () => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const response = await axios.get(`${BASE_URL}/restaurants`, {
+      headers: {
+        Authorization: `${getToken()}`,
+      },
+    });
+    dispatch(setRestaurants(response.data));
+  } catch (err) {
+    dispatch(setError(err.response?.data?.message || err.message || 'Failed to fetch'));
+  }
+};

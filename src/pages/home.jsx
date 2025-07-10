@@ -1,27 +1,16 @@
 import { useEffect } from 'react';
 import FilterSidebar from '../components/filterBar';
 import RestaurantCard from '../components/restaurantCard';
-import axios from 'axios';
-import { BASE_URL, getToken } from '../../constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRestaurants } from '../store/effects/restaurantEffects';
 
 const Home = () => {
-
-    useEffect(() => {
-        const fetchRestaurants = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL}/restaurants`, {
-                    headers: {
-                        Authorization: getToken(),
-                    },
-                });
-                console.log('Fetched restaurants:', response.data);
-            } catch (error) {
-                console.error('Error fetching restaurants:', error);
-            }
-        };
-
-        fetchRestaurants();
-    }, []);
+    const dispatch = useDispatch()
+  const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
+  
+     useEffect(() => {
+        dispatch(fetchRestaurants());
+    }, [dispatch]);
 
     return (
         <main className="">
@@ -36,14 +25,14 @@ const Home = () => {
                     {/* Scrollable cards section */}
                     <div className="overflow-y-auto max-h-[calc(100vh-8rem)] pr-2">
                         <div className="flex flex-wrap gap-6">
-                            {[1, 2, 3, 4, 5, 5, 6, 7, 8, 8, 99, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0].map((_, idx) => {
+                            {restaurants.map((restaurant, idx) => {
                                 return (
                                     <RestaurantCard
                                         key={idx}
-                                        name="The Taco Place"
-                                        distance="1 km"
+                                        name={restaurant?.name}
+                                        distance="Should write logic to calc distance"
                                         priceRange="$10–15 Per Person"
-                                        imageUrl="https://cdn.pixabay.com/photo/2023/05/15/04/44/tacos-7994117_1280.jpg"
+                                        imageUrl={restaurant?.img}
                                     />
                                 );
                             })}
