@@ -7,7 +7,7 @@ const Navbar = () => {
         <nav className="bg-white shadow-md w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
-                    <div className="text-xl font-semi-bold text-gray-800">The Perfect Spot</div>
+                    <div className="text-xl font-semi-bold text-gray-800">Dine Connect</div>
                     <div className="flex items-center justify-center space-x-4">
                         <input
                             type="search"
