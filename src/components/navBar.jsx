@@ -8,12 +8,15 @@ const Navbar = () => {
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    setIsLoggedIn(loggedIn);
-  }, []);
-
+    if (loggedIn) {
+      setIsLoggedIn(true);
+    }
+    else{
+      setIsLoggedIn(false);
+    }
+  });
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn'); // 👈 Clear login flag
-    setIsLoggedIn(false);
+    localStorage.removeItem('isLoggedIn'); 
     navigate('/');
   };
 

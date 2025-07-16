@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_URL } from '../../constants';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,7 +12,7 @@ const handleSubmit = async (e) => {
 
     try {
         console.log('Submitting Login:', { email, password });
-        const response = await axios.post(`${BASE_URL}/api/auth/login`, {
+        const response = await axios.post(`${BASE_URL}/auth/login`, {
         email,
         password,
         });
