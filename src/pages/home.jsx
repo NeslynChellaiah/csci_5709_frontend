@@ -6,10 +6,10 @@ import { fetchRestaurants, filterRestaurants } from '../store/effects/restaurant
 import Modal from '../components/modal';
 
 const Home = () => {
-    const dispatch = useDispatch()
-    const { restaurants, isLoading } = useSelector((state) => state.restaurants);
-    const [showModal, setShowModal] = useState(true);
+  const dispatch = useDispatch();
+  const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
 
+  const [showModal, setShowModal] = useState(true);
   const [keywords, setKeywords] = useState(['Spicy', 'Tacos', 'Nachos']);
   const [priceRange, setPriceRange] = useState(58);
   const [cuisines, setCuisines] = useState({ Indian: true, Mexican: true, Lebanese: true });
