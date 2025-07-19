@@ -23,10 +23,10 @@ export const fetchRestaurants = () => async (dispatch) => {
   }
 };
 
-export const fetchRestaurantById = (id) => async (dispatch) => {
+export const filterRestaurants = (filterData) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const response = await axios.get(`${BASE_URL}/restaurants/${id}`, {
+    const response = await axios.post(`${BASE_URL}/restaurants/filter`, filterData, {
       headers: {
         Authorization: `${getToken()}`,
       },
