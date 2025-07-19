@@ -1,19 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import FilterSidebar from '../components/filterBar';
 import RestaurantCard from '../components/restaurantCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurants } from '../store/effects/restaurantEffects';
+import Modal from '../components/modal';
 
 const Home = () => {
     const dispatch = useDispatch()
-  const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
-  
-     useEffect(() => {
+    const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
+    const [showModal, setShowModal] = useState(true);
+
+    useEffect(() => {
         dispatch(fetchRestaurants());
     }, [dispatch]);
 
     return (
-        <main className="">
+        <main className="relative">
+            <Modal
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+            />
             <div className="flex">
                 {/* Sidebar */}
                 <div className="w-80 p-6">
