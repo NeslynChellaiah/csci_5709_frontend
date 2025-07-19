@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 
-const FilterSidebar = () => {
+const FilterSidebar = ({
+  cuisines,
+  setCuisines,
+  types,
+  setTypes,
+  keywords,
+  setKeywords,
+  priceRange,
+  setPriceRange
+}) => {
   const [keywordInput, setKeywordInput] = useState('');
-  const [keywords, setKeywords] = useState(['Spicy', 'Tacos', 'Nachos']);
-  const [priceRange, setPriceRange] = useState(58);
-
-
-  const [cuisines, setCuisines] = useState({
-    Indian: true,
-    Mexican: true,
-    Lebanese: true,
-  });
-
-  const [types, setTypes] = useState({
-    Cafe: true,
-    'Fine Dining': true,
-    'Food Truck': true,
-  });
 
   const handleAddKeyword = (e) => {
     e.preventDefault();
@@ -34,6 +28,7 @@ const FilterSidebar = () => {
   const toggleCheckbox = (group, setGroup, key) => {
     setGroup((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
 
   return (
     <div className="border rounded-xl p-8 w-full h-full shadow-lg space-y-6 bg-white max-w-xs">
