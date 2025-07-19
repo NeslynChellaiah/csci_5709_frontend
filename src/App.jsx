@@ -5,6 +5,7 @@ import NavBar from './components/navBar';
 import Restaurant from './pages/restaurant';
 import Login from './pages/login';
 import Signup from './pages/signUp';
+import NotFound from './pages/notFound';
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
              <Route path="/signup" element={<Signup />} />
             <Route path="/home" element={<Home />} />
             <Route path="/restaurant/:id" element={<Restaurant />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
     </>
