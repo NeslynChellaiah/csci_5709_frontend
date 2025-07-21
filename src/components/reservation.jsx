@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Reservation = () => {
+const Reservation = ({restaurant}) => {
     const [tableFor, setTableFor] = useState('2');
     const [reservationTime, setReservationTime] = useState('');
     const [error, setError] = useState('');
@@ -23,18 +23,19 @@ const Reservation = () => {
 
     return (
         <div className="max-w-5xl mx-auto p-6">
-            <h2 className="text-2xl font-semibold mb-3">The Taco Place</h2>
+            <h2 className="text-2xl font-semibold mb-1">{restaurant?.name}</h2>
+            <p className="text-gray-500 mb-3">{restaurant?.description}</p>
 
             <span className="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-md mb-2">
                 Reservation Charge
             </span>
 
             <div className="flex items-end space-x-2 mb-2">
-                <span className="text-4xl font-bold text-gray-800">$5</span>
+                <span className="text-4xl font-bold text-gray-800">${restaurant?.reservationCharge}</span>
             </div>
 
             <p className="text-gray-500 mb-6">
-                A reservation charge of $5 per person has to be paid to book table. This amount can be redeemed in the total bill amount.
+                A reservation charge of ${restaurant?.reservationCharge} per person has to be paid to book table. This amount can be redeemed in the total bill amount.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -48,8 +49,11 @@ const Reservation = () => {
                         onChange={(e) => setTableFor(e.target.value)}
                     >
                         <option>2</option>
+                        <option>3</option>
                         <option>4</option>
+                        <option>5</option>
                         <option>6</option>
+                        <option>7</option>
                         <option>8</option>
                     </select>
                 </div>

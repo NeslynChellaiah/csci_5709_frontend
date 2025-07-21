@@ -5,6 +5,7 @@ import {
   setRestaurants,
   setLoading,
   setError,
+  setRestaurant,
 } from '../actions/restaurantActions';
 import { BASE_URL, getToken } from '../../../constants';
 
@@ -19,5 +20,21 @@ export const fetchRestaurants = () => async (dispatch) => {
     dispatch(setRestaurants(response.data));
   } catch (err) {
     dispatch(setError(err.response?.data?.message || err.message || 'Failed to fetch'));
+  }
+};
+
+export const fetchRestaurantById = (id) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const response = await axios.get(`${BASE_URL}/restaurants/${id}`, {
+      headers: {
+        Authorization: `${getToken()}`,
+      },
+    });
+    dispatch(setRestaurant(response.data));
+  } catch (err) {
+    dispatch(
+      setError(err.response?.data?.message || err.message || 'Failed to fetch')
+    );
   }
 };

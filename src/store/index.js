@@ -5,5 +5,6 @@ import restaurantReducer from './reducers/restaurantReducers.js';
 export const store = configureStore({
   reducer: {
     restaurants: restaurantReducer,
+    restaurant: restaurantReducer
   },
 });

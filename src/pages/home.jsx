@@ -7,7 +7,7 @@ import Modal from '../components/modal';
 
 const Home = () => {
     const dispatch = useDispatch()
-    const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
+    const { restaurants, isLoading } = useSelector((state) => state.restaurants);
     const [showModal, setShowModal] = useState(true);
 
     useEffect(() => {
