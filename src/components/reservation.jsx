@@ -36,6 +36,8 @@ const Reservation = ({ restaurant }) => {
         })
             .then(response => {
                 console.log('Booking successful:', response.data);
+                setReservationTime('')
+                setTableFor(2)
             })
             .catch(error => {
                 console.error('Booking failed:', error);
