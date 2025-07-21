@@ -1,6 +1,8 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { BASE_URL, getToken } from '../../constants';
 
-const Reservation = ({restaurant}) => {
+const Reservation = ({ restaurant }) => {
     const [tableFor, setTableFor] = useState('2');
     const [reservationTime, setReservationTime] = useState('');
     const [error, setError] = useState('');
@@ -20,6 +22,25 @@ const Reservation = ({restaurant}) => {
     const minTime = new Date(Date.now() + 30 * 60 * 1000)
         .toISOString()
         .slice(0, 16);
+
+    const reserve = () => {
+        axios.post(BASE_URL + '/bookings', {
+            "restaurantId": restaurant?.id,
+            "bookingDate": reservationTime,
+            "bookingTime": reservationTime,
+            "numberOfGuests": tableFor
+        }, {
+            headers: {
+                Authorization: `${getToken()}`,
+            },
+        })
+            .then(response => {
+                console.log('Booking successful:', response.data);
+            })
+            .catch(error => {
+                console.error('Booking failed:', error);
+            });
+    }
 
     return (
         <div className="max-w-5xl mx-auto p-6">
@@ -77,9 +98,10 @@ const Reservation = ({restaurant}) => {
             <button
                 disabled={!reservationTime || error}
                 className={`mt-6 px-6 py-2 rounded-md text-white font-medium transition w-full ${!reservationTime || error
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-black hover:bg-gray-800'
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-black hover:bg-gray-800'
                     }`}
+                onClick={reserve}
             >
                 Reserve
             </button>
