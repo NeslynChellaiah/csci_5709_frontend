@@ -4,11 +4,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const images = [
-  'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg',
-  'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg',
-  'https://images.pexels.com/photos/262959/pexels-photo-262959.jpeg',
-];
+// const images = [
+//   'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg',
+//   'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg',
+//   'https://images.pexels.com/photos/262959/pexels-photo-262959.jpeg',
+// ];
 
 const NextArrow = ({ onClick }) => (
   <div
@@ -28,7 +28,8 @@ const PrevArrow = ({ onClick }) => (
   </div>
 );
 
-const ImageCarousel = () => {
+const ImageCarousel = ({images}) => {
+  console.log(images, "?????s")
   const settings = {
     dots: true,
     infinite: true,
@@ -42,9 +43,9 @@ const ImageCarousel = () => {
   };
 
   return (
-    <div className="relative max-w-4xl mx-auto mt-10">
-      <Slider {...settings}>
-        {images.map((src, index) => (
+     images && <div className="relative max-w-4xl mx-auto mt-10">
+      {images.length > 1 ? <Slider {...settings}>
+        {[...images]?.map((src, index) => (
           <div key={index}>
             <img
               src={src}
@@ -52,8 +53,14 @@ const ImageCarousel = () => {
               className="w-full h-100 object-cover rounded-2xl shadow-lg"
             />
           </div>
-        ))}
-      </Slider>
+        ))} 
+      </Slider>: <div>
+            <img
+              src={images?.[0]}
+              alt={`Image`}
+              className="w-full h-100 object-cover rounded-2xl shadow-lg"
+            />
+          </div>}
     </div>
   );
 };

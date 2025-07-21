@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <main className="relative">
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
-      
+
       <div className="flex">
         {/* Sidebar */}
         <div className="w-80 p-6">
@@ -61,10 +61,10 @@ const Home = () => {
               {restaurants.map((restaurant, idx) => (
                 <RestaurantCard
                   key={idx}
-                  name={restaurant.name}
+                  name={restaurant?.name}
                   distance="1.2 km"
-                  priceRange={`$${restaurant.priceRange} Per Person`}
-                  imageUrl={restaurant.img || 'https://via.placeholder.com/400x300?text=Image'}
+                  priceRange={`$${restaurant?.priceRange} Per Person`}
+                  imageUrl={restaurant?.img || 'https://via.placeholder.com/400x300?text=Image'}
                 />
               ))}
             </div>
