@@ -23,6 +23,20 @@ export const fetchRestaurants = () => async (dispatch) => {
   }
 };
 
+export const filterRestaurants = (filterData) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const response = await axios.post(`${BASE_URL}/restaurants/filter`, filterData, {
+      headers: {
+        Authorization: `${getToken()}`,
+      },
+    });
+    dispatch(setRestaurants(response.data));
+  } catch (err) {
+    dispatch(setError(err.response?.data?.message || err.message || 'Failed to filter'));
+  }
+};
+
 export const fetchRestaurantById = (id) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
