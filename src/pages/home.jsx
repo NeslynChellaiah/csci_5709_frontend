@@ -37,7 +37,6 @@ const Home = () => {
   return (
     <main className="relative">
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
-      
       <div className="flex">
         {/* Sidebar */}
         <div className="w-80 p-6">
