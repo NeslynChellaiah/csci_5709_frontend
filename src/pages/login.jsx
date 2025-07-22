@@ -17,11 +17,9 @@ const handleSubmit = async (e) => {
         password,
         });
 
-        console.log('Response:', response.data);
-        alert('Logged successfully');
-        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("token", response?.data?.token);
 
-        navigate('/home');
+        navigate('/');
     } catch (error) {
         console.error('Invalid Email or Password', error);
         alert('Please try again using correct email and password');

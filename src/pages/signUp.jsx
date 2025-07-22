@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { BASE_URL } from '../../constants';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -13,18 +15,16 @@ const Signup = () => {
 
   try {
     console.log('Submitting Signup:', { username, email, password });
-    const response = await axios.post(`${BASE_URL}/api/auth/register`, {
+    const response = await axios.post(`${BASE_URL}/auth/register`, {
       username,
       email,
       password,
     });
-
-    console.log('Response:', response.data);
-    alert('Account created successfully');
+            localStorage.setItem("token", response?.data?.token);
+    toast.success('Account created successfully');
     navigate('/');
   } catch (error) {
-    console.error('User Already Exist:', error);
-    alert('Please try again using different email');
+    toast.error('User already exist');
   }
 };
 

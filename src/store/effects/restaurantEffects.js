@@ -18,8 +18,10 @@ export const fetchRestaurants = () => async (dispatch) => {
       },
     });
     dispatch(setRestaurants(response.data));
+    dispatch(setLoading(false));
   } catch (err) {
     dispatch(setError(err.response?.data?.message || err.message || 'Failed to fetch'));
+    dispatch(setLoading(false));
   }
 };
 
@@ -32,12 +34,14 @@ export const filterRestaurants = (filterData) => async (dispatch) => {
       },
     });
     dispatch(setRestaurants(response.data));
+    dispatch(setLoading(false));
   } catch (err) {
     dispatch(setError(err.response?.data?.message || err.message || 'Failed to filter'));
+    dispatch(setLoading(false));
   }
 };
 
-export const fetchRestaurantById = (id) => async (dispatch) => {
+export const fetchRestaurantById = (id, navigate) => async (dispatch) => {
   dispatch(setRestaurant({}));
   dispatch(setLoading(true));
   try {
@@ -47,9 +51,12 @@ export const fetchRestaurantById = (id) => async (dispatch) => {
       },
     });
     dispatch(setRestaurant(response.data));
+    dispatch(setLoading(false))
   } catch (err) {
     dispatch(
       setError(err.response?.data?.message || err.message || 'Failed to fetch')
     );
+    dispatch(setLoading(false))
+    navigate("/404")
   }
 };

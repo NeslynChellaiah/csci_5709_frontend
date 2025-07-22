@@ -28,7 +28,6 @@ const Home = () => {
   // Initial fetch
   useEffect(() => {
     dispatch(fetchRestaurants());
-    console.log(isLoading)
   }, [dispatch]);
 
   // Debounced filter function
