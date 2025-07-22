@@ -8,8 +8,7 @@ import Modal from '../components/modal';
 const Home = () => {
   const dispatch = useDispatch();
   const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
-
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(true)
   const [keywords, setKeywords] = useState(['Spicy', 'Tacos', 'Nachos']);
   const [priceRange, setPriceRange] = useState(58);
   const [cuisines, setCuisines] = useState({ Indian: true, Mexican: true, Lebanese: true });
@@ -38,7 +37,6 @@ const Home = () => {
   return (
     <main className="relative">
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
-
       <div className="flex">
         {/* Sidebar */}
         <div className="w-80 p-6">
@@ -61,10 +59,10 @@ const Home = () => {
               {restaurants.map((restaurant, idx) => (
                 <RestaurantCard
                   key={idx}
-                  name={restaurant?.name}
+                  name={restaurant.name}
                   distance="1.2 km"
-                  priceRange={`$${restaurant?.priceRange} Per Person`}
-                  imageUrl={restaurant?.img || 'https://via.placeholder.com/400x300?text=Image'}
+                  priceRange={`$${restaurant.priceRange} Per Person`}
+                  imageUrl={restaurant.img || 'https://via.placeholder.com/400x300?text=Image'}
                 />
               ))}
             </div>

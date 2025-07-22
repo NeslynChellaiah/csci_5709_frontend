@@ -4,7 +4,7 @@ const RestaurantReviews = ({reviews}) => {
 
 
     if (!reviews || reviews.length === 0) {
-        return <p className="text-center text-gray-500">No reviews available.</p>;
+        return <p className="text-center text-gray-500 mb-4">No reviews available.</p>;
     }
 
     function formatToDDMMYYYY(isoString) {
@@ -17,10 +17,9 @@ const RestaurantReviews = ({reviews}) => {
         return `${day}-${month}-${year}`;
     }
 
-    console.log(reviews)
 
     return (
-        <div className='max-w-5xl mx-auto p-6'>
+        <div className='max-w-5xl mx-auto p-6 pt-0'>
             <h2 className="text-2xl font-bold mt-6 mb-4">Latest Reviews</h2>
             <div className="flex flex-wrap gap-12 max-w-5xl mx-auto p-6">
             {reviews.map((r, index) => (

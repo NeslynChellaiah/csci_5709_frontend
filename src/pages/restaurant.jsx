@@ -8,6 +8,7 @@ import { BASE_URL, getToken } from '../../constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRestaurantById } from '../store/effects/restaurantEffects'
 import { useParams } from 'react-router-dom'
+import AddReview from '../components/addReview'
 
 
 const Restaurant = () => {
@@ -15,41 +16,57 @@ const Restaurant = () => {
   const { id } = useParams();
   const dispatch = useDispatch()
   const [reviews, setReviews] = useState([]);
-  const { restaurant } = useSelector((state) => {return state.restaurant});
+  const [showModal, setShowModal] = useState(false);
+
+  const { restaurant } = useSelector((state) => { return state.restaurant });
 
   useEffect(() => {
     dispatch(fetchRestaurantById(id));
   }, [dispatch, id]);
 
-useEffect(() => {
-  const fetchReviewsByUrl = async () => {
-    if (restaurant?.overallReview?.href) {
-      try {
-        const url = `${BASE_URL.slice(0, -4)}${restaurant.overallReview.href}`;
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `${getToken()}`,
-          },
-        });
-        // Ensure reviews is always an array
-        setReviews(Array.isArray(response.data.data) ? response.data.data : []);
-      } catch (error) {
-        console.error('Error fetching reviews:', error);
-        setReviews([]); // fallback to empty array on error
+  useEffect(() => {
+    const fetchReviewsByUrl = async () => {
+      if (restaurant?.overallReview?.href) {
+        try {
+          const url = `${BASE_URL.slice(0, -4)}${restaurant.overallReview.href}`;
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: `${getToken()}`,
+            },
+          });
+          // Ensure reviews is always an array
+          setReviews(Array.isArray(response.data.data) ? response.data.data : []);
+        } catch (error) {
+          console.error('Error fetching reviews:', error);
+          setReviews([]); // fallback to empty array on error
+        }
+      } else {
+        setReviews([]); // fallback if no href
       }
-    } else {
-      setReviews([]); // fallback if no href
-    }
-  };
-  fetchReviewsByUrl();
-}, [restaurant]);
+    };
+    fetchReviewsByUrl();
+  }, [restaurant]);
   return (
-    restaurant && (<div className="flex-1">
+    restaurant && (<div className="flex-1 justify-center">
       <div className="overflow-y-auto max-h-[calc(100vh-4rem)] pr-2">
-        <ImageCarousel images={restaurant?.imageUrls}/>
-        <Reservation restaurant={restaurant}/>
+        <ImageCarousel images={restaurant?.imageUrls} />
+        <Reservation restaurant={restaurant} />
         <RestaurantMap latitude={44.638452391512345} longitude={-63.590358497425484} />
+                     <div className="flex justify-center">
+        <button
+          className="bg-black hover:bg-gray-800 px-6 py-2 rounded-md text-white font-medium transition cursor-pointer"
+          onClick={() => setShowModal(true)}
+        >
+          Add Review
+        </button>
+      </div>
         <RestaurantReviews reviews={reviews} />
+        <AddReview
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          id={restaurant?.id}
+        />
+        
       </div>
     </div>)
   )
