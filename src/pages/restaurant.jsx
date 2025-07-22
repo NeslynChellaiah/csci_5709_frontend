@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchRestaurantById } from '../store/effects/restaurantEffects'
 import { useParams } from 'react-router-dom'
 import AddReview from '../components/addReview'
+import { Spinner } from '../components/spinner'
 
 
 const Restaurant = () => {
@@ -18,7 +19,7 @@ const Restaurant = () => {
   const [reviews, setReviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const { restaurant } = useSelector((state) => { return state.restaurant });
+  const { restaurant, isLoading } = useSelector((state) => { return state.restaurant });
 
   useEffect(() => {
     dispatch(fetchRestaurantById(id));
@@ -47,7 +48,7 @@ const Restaurant = () => {
     fetchReviewsByUrl();
   }, [restaurant]);
   return (
-    restaurant && (<div className="flex-1 justify-center">
+     (isLoading ? <Spinner /> : <div className="flex-1 justify-center">
       <div className="overflow-y-auto max-h-[calc(100vh-4rem)] pr-2">
         <ImageCarousel images={restaurant?.imageUrls} />
         <Reservation restaurant={restaurant} />

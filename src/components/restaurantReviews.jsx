@@ -4,7 +4,7 @@ const RestaurantReviews = ({reviews}) => {
 
 
     if (!reviews || reviews.length === 0) {
-        return <p className="text-center text-gray-500 mb-4">No reviews available.</p>;
+        return <p className="text-center text-gray-500 my-4">No reviews available.</p>;
     }
 
     function formatToDDMMYYYY(isoString) {
