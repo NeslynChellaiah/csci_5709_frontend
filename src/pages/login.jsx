@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL } from '../../constants';
+import { BASE_URL, getRole, getToken } from '../../constants';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      if (getRole() == "ADMIN") {
+        console.log(2)
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
+    } 
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        console.log('Submitting Login:', { email, password });
-        const response = await axios.post(`${BASE_URL}/auth/login`, {
+      console.log('Submitting Login:', { email, password });
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
         email,
         password,
-        });
+      });
 
-        localStorage.setItem("token", response?.data?.token);
+      localStorage.setItem("token", response?.data?.token);
 
-        navigate('/');
+      navigate('/');
     } catch (error) {
-        console.error('Invalid Email or Password', error);
-        alert('Please try again using correct email and password');
+      console.error('Invalid Email or Password', error);
+      alert('Please try again using correct email and password');
     }
-};
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">

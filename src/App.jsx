@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
 import Home from './pages/home';
 import NavBar from './components/navBar';
@@ -8,6 +8,8 @@ import Signup from './pages/signUp';
 import NotFound from './pages/notFound';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { useEffect } from 'react';
+import { isTokenExpired } from './utils';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -25,10 +27,19 @@ function App() {
 
 function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const path = location.pathname;
 
-  // Hide NavBar on these paths
-  const hideNav = ['/login', '/signup'].includes(path) || !['/', '/restaurant'].some(p => path == p);
+  const hideNav = !(path == '/' || ['/restaurant'].some(p => path.startsWith(p)));
+
+  useEffect(() => {
+    if (isTokenExpired()) {
+      localStorage.removeItem('token');
+      if (path !== '/login' && path !== '/signup') {
+        navigate('/login');
+      }
+    }
+  }, [path, navigate]);
 
   return (
     <>
@@ -43,6 +54,14 @@ function Layout() {
           element={
             <ProtectedRoute>
               <Restaurant />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <div>Admin Page</div>
             </ProtectedRoute>
           }
         />

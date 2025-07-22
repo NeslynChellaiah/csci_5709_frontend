@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { BASE_URL } from '../../constants';
+import { BASE_URL, getRole } from '../../constants';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -10,23 +10,35 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+        if (token) {
+          if (getRole() == "ADMIN") {
+            console.log(2)
+            navigate('/admin');
+          } else {
+            navigate('/');
+          }
+        }
+  }, [navigate]);
 
-  try {
-    console.log('Submitting Signup:', { username, email, password });
-    const response = await axios.post(`${BASE_URL}/auth/register`, {
-      username,
-      email,
-      password,
-    });
-            localStorage.setItem("token", response?.data?.token);
-    toast.success('Account created successfully');
-    navigate('/');
-  } catch (error) {
-    toast.error('User already exist');
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      console.log('Submitting Signup:', { username, email, password });
+      const response = await axios.post(`${BASE_URL}/auth/register`, {
+        username,
+        email,
+        password,
+      });
+      localStorage.setItem("token", response?.data?.token);
+      toast.success('Account created successfully');
+      navigate('/');
+    } catch (error) {
+      toast.error('User already exist');
+    }
+  };
 
 
 

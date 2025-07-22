@@ -10,6 +10,7 @@ import { fetchRestaurantById } from '../store/effects/restaurantEffects'
 import { useNavigate, useParams } from 'react-router-dom'
 import AddReview from '../components/addReview'
 import { Spinner } from '../components/spinner'
+import Modal from '../components/modal'
 
 
 const Restaurant = () => {
@@ -19,6 +20,7 @@ const Restaurant = () => {
   const [reviews, setReviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
 
   const { restaurant, isLoading } = useSelector((state) => { return state.restaurant });
 
@@ -53,6 +55,7 @@ const Restaurant = () => {
   }, [restaurant]);
   return (
      (isLoading ? <Spinner /> : <div className="flex-1 justify-center">
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
       <div className="overflow-y-auto max-h-[calc(100vh-4rem)] pr-2">
         <ImageCarousel images={restaurant?.imageUrls} />
         <Reservation restaurant={restaurant} />
