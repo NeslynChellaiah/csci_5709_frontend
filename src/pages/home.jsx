@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurants, filterRestaurants } from '../store/effects/restaurantEffects';
 import FilterSidebar from '../components/filterBar';
 import RestaurantCard from '../components/restaurantCard';
-import Modal from '../components/modal';
 import { debounce } from 'lodash';
 import { Spinner } from '../components/spinner';
 
@@ -12,7 +11,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const { restaurants, isLoading } = useSelector((state) => state.restaurants);
 
-  const [showModal, setShowModal] = useState(true);
   const [priceRange, setPriceRange] = useState(100); // default max
   const [cuisines, setCuisines] = useState({
     Indian: false,
@@ -62,7 +60,6 @@ const Home = () => {
 
   return (
     <main className="relative">
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
         {isLoading ? <Spinner /> : 
       <div className="flex">
         {/* Sidebar */}
@@ -79,7 +76,7 @@ const Home = () => {
 
         {/* Main content */}
         <div className="flex-1 mt-6">
-          <div className="overflow-y-auto max-h-[calc(100vh-8rem)] pr-2">
+          <div className="overflow-y-auto max-h-[calc(100vh-6rem)] pr-2">
             <div className="flex flex-wrap gap-6">
               {restaurants.map((restaurant, idx) => (
                 <RestaurantCard
