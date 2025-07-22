@@ -20,6 +20,7 @@
     "axios": "^1.10.0",
     "dotenv": "^17.2.0",
     "lodash": "^4.17.21",
+    "formik": "^2.4.6",
     "lucide-react": "^0.525.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,7 +28,8 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.21.3",
     "react-slick": "^0.30.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

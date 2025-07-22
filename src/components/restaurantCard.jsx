@@ -1,6 +1,14 @@
-const RestaurantCard = ({ name, distance, priceRange, imageUrl }) => {
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../constants";
+
+const RestaurantCard = ({ name, distance, priceRange, imageUrl, id }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/restaurant/${id}`);
+  };
   return (
-    <div className="w-60 rounded-md border border-gray-200 shadow-sm hover:shadow-md transition duration-200 bg-white cursor-pointer">
+    <div onClick={handleClick} className="w-60 rounded-md border border-gray-200 shadow-sm hover:shadow-md transition duration-200 bg-white cursor-pointer">
       <img
         src={imageUrl}
         alt={name}

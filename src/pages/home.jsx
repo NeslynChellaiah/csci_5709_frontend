@@ -5,6 +5,8 @@ import FilterSidebar from '../components/filterBar';
 import RestaurantCard from '../components/restaurantCard';
 import Modal from '../components/modal';
 import { debounce } from 'lodash';
+import { Spinner } from '../components/spinner';
+
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ const Home = () => {
   // Initial fetch
   useEffect(() => {
     dispatch(fetchRestaurants());
+    console.log(isLoading)
   }, [dispatch]);
 
   // Debounced filter function
@@ -61,7 +64,7 @@ const Home = () => {
   return (
     <main className="relative">
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
-
+        {isLoading ? <Spinner /> : 
       <div className="flex">
         {/* Sidebar */}
         <div className="w-80 p-6">
@@ -82,7 +85,8 @@ const Home = () => {
               {restaurants.map((restaurant, idx) => (
                 <RestaurantCard
                   key={idx}
-                  name={restaurant?.name}
+                  id={restaurant?.id}
+                  name={restaurant.name}
                   distance="1.2 km"
                   priceRange={`$${restaurant?.priceRange} Per Person`}
                   imageUrl={
@@ -95,6 +99,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+    }
     </main>
   );
 };

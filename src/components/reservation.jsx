@@ -1,18 +1,22 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { BASE_URL, getToken } from '../../constants';
+import AddReview from './addReview';
 
 const Reservation = ({ restaurant }) => {
     const [tableFor, setTableFor] = useState('2');
     const [reservationTime, setReservationTime] = useState('');
     const [error, setError] = useState('');
 
+
     const handleTimeChange = (e) => {
         const selected = new Date(e.target.value);
         const nowPlus30Min = new Date(Date.now() + 30 * 60 * 1000);
-
+        const selectedHours = selected.getHours();
         if (selected < nowPlus30Min) {
             setError('Please select a time at least 30 minutes from now.');
+        } else if (selectedHours < 10 || selectedHours >= 22) {
+            setError('Booking time must be between 10:00 AM and 10:00 PM.');
         } else {
             setError('');
             setReservationTime(e.target.value);
@@ -45,7 +49,7 @@ const Reservation = ({ restaurant }) => {
     }
 
     return (
-        <div className="max-w-5xl mx-auto p-6">
+        <div className="max-w-5xl mx-auto p-6 relative">
             <h2 className="text-2xl font-semibold mb-1">{restaurant?.name}</h2>
             <p className="text-gray-500 mb-3">{restaurant?.description}</p>
 
@@ -101,7 +105,7 @@ const Reservation = ({ restaurant }) => {
                 disabled={!reservationTime || error}
                 className={`mt-6 px-6 py-2 rounded-md text-white font-medium transition w-full ${!reservationTime || error
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-black hover:bg-gray-800'
+                    : 'bg-black hover:bg-gray-800 cursor-pointer'
                     }`}
                 onClick={reserve}
             >

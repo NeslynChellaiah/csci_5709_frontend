@@ -29,7 +29,6 @@ const PrevArrow = ({ onClick }) => (
 );
 
 const ImageCarousel = ({images}) => {
-  console.log(images, "?????s")
   const settings = {
     dots: true,
     infinite: true,
