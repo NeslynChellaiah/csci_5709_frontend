@@ -4,10 +4,11 @@ import RestaurantCard from '../components/restaurantCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurants, filterRestaurants } from '../store/effects/restaurantEffects';
 import Modal from '../components/modal';
+import { Spinner } from '../components/spinner';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
+  const { restaurants, isLoading } = useSelector((state) => state.restaurants);
   const [showModal, setShowModal] = useState(true)
   const [keywords, setKeywords] = useState(['Spicy', 'Tacos', 'Nachos']);
   const [priceRange, setPriceRange] = useState(58);
@@ -17,6 +18,7 @@ const Home = () => {
   // Initial fetch
   useEffect(() => {
     dispatch(fetchRestaurants());
+    console.log(isLoading)
   }, [dispatch]);
 
   // Refetch when filters change
@@ -37,6 +39,7 @@ const Home = () => {
   return (
     <main className="relative">
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
+        {isLoading ? <Spinner /> : 
       <div className="flex">
         {/* Sidebar */}
         <div className="w-80 p-6">
@@ -59,6 +62,7 @@ const Home = () => {
               {restaurants.map((restaurant, idx) => (
                 <RestaurantCard
                   key={idx}
+                  id={restaurant?.id}
                   name={restaurant.name}
                   distance="1.2 km"
                   priceRange={`$${restaurant.priceRange} Per Person`}
@@ -69,6 +73,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+    }
     </main>
   );
 };
