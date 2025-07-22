@@ -7,7 +7,7 @@ import axios from 'axios'
 import { BASE_URL, getToken } from '../../constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRestaurantById } from '../store/effects/restaurantEffects'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AddReview from '../components/addReview'
 import { Spinner } from '../components/spinner'
 
@@ -18,14 +18,18 @@ const Restaurant = () => {
   const dispatch = useDispatch()
   const [reviews, setReviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const { restaurant, isLoading } = useSelector((state) => { return state.restaurant });
 
   useEffect(() => {
-    dispatch(fetchRestaurantById(id));
+    dispatch(fetchRestaurantById(id, navigate));
   }, [dispatch, id]);
 
+
+
   useEffect(() => {
+    console.log(restaurant, isLoading)
     const fetchReviewsByUrl = async () => {
       if (restaurant?.overallReview?.href) {
         try {

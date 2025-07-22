@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const loggedIn = localStorage.getItem('token');
     if (loggedIn) {
       setIsLoggedIn(true);
     }
@@ -16,12 +16,12 @@ const Navbar = () => {
     }
   });
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    navigate('/');
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   const handleLoginRedirect = () => {
-    navigate('/');
+    navigate('/login');
   };
 
   return (
