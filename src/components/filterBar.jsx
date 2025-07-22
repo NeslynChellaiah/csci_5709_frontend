@@ -5,25 +5,9 @@ const FilterSidebar = ({
   setCuisines,
   types,
   setTypes,
-  keywords,
-  setKeywords,
   priceRange,
   setPriceRange
 }) => {
-  const [keywordInput, setKeywordInput] = useState('');
-
-  const handleAddKeyword = (e) => {
-    e.preventDefault();
-    const trimmed = keywordInput.trim();
-    if (trimmed && !keywords.includes(trimmed)) {
-      setKeywords([...keywords, trimmed]);
-      setKeywordInput('');
-    }
-  };
-
-  const removeKeyword = (word) => {
-    setKeywords((prev) => prev.filter((k) => k !== word));
-  };
 
   const toggleCheckbox = (group, setGroup, key) => {
     setGroup((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -32,42 +16,6 @@ const FilterSidebar = ({
 
   return (
     <div className="border rounded-xl p-8 w-full h-full shadow-lg space-y-6 bg-white max-w-xs">
-      {/* Keyword Input */}
-      <div>
-        <h2 className="text-lg font-semibold mb-3">Keywords</h2>
-        <form onSubmit={handleAddKeyword} className="mb-3">
-          <input
-            type="text"
-            value={keywordInput}
-            onChange={(e) => setKeywordInput(e.target.value)}
-            placeholder="Enter your preference"
-            className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring focus:ring-gray-400"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleAddKeyword(e);
-              }
-            }}
-          />
-        </form>
-        <div className="flex flex-wrap gap-2">
-          {keywords.map((word, i) => (
-            <span
-              key={i}
-              className="bg-gray-200 text-sm px-4 py-2 rounded-full flex items-center"
-            >
-              {word}
-              <button
-                onClick={() => removeKeyword(word)}
-                className="ml-2 text-black hover:text-red-600 font-bold text-lg"
-              >
-                ×
-              </button>
-            </span>
-          ))}
-        </div>
-      </div>
-
 
     {/* Price Range */}
         <div>
@@ -125,6 +73,17 @@ const FilterSidebar = ({
           ))}
         </div>
       </div>
+      <button
+  onClick={() => {
+    setCuisines({ Indian: false, Mexican: false, Lebanese: false });
+    setTypes({ Cafe: false, 'Fine Dining': false, 'Food Truck': false });
+    setPriceRange(100);
+  }}
+  className="w-full py-2 px-4 bg-gray-200 text-sm rounded hover:bg-gray-300 transition"
+>
+  Reset Filters
+</button>
+
     </div>
   );
 };

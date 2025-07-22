@@ -10,10 +10,10 @@ const Home = () => {
   const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
 
   const [showModal, setShowModal] = useState(true);
-  const [keywords, setKeywords] = useState(['Spicy', 'Tacos', 'Nachos']);
-  const [priceRange, setPriceRange] = useState(58);
-  const [cuisines, setCuisines] = useState({ Indian: true, Mexican: true, Lebanese: true });
-  const [types, setTypes] = useState({ Cafe: true, 'Fine Dining': true, 'Food Truck': true });
+  // const [keywords, setKeywords] = useState(['Spicy', 'Tacos', 'Nachos']);
+  const [priceRange, setPriceRange] = useState(100);
+  const [cuisines, setCuisines] = useState({ Indian: false, Mexican: false, Lebanese: false });
+  const [types, setTypes] = useState({ Cafe: false, 'Fine Dining': false, 'Food Truck': false });
 
   // Initial fetch
   useEffect(() => {
@@ -29,11 +29,11 @@ const Home = () => {
       cuisines: selectedCuisines,
       types: selectedTypes,
       priceRange,
-      keywords,
+      keywords: [],
     };
 
     dispatch(filterRestaurants(payload));
-  }, [cuisines, types, priceRange, keywords]);
+  }, [cuisines, types, priceRange]);
 
   return (
     <main className="relative">
@@ -47,8 +47,6 @@ const Home = () => {
             setCuisines={setCuisines}
             types={types}
             setTypes={setTypes}
-            keywords={keywords}
-            setKeywords={setKeywords}
             priceRange={priceRange}
             setPriceRange={setPriceRange}
           />

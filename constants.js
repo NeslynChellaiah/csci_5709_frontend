@@ -1,4 +1,4 @@
 export const BASE_URL="https://dineconnect-backend-latest.onrender.com/api";
 export const getToken = () => {
-    return "Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWt0aGlzaGFyYW5tQGdtYWlsLmNvbSIsImlhdCI6MTc1Mjg5OTY4MSwiZXhwIjoxNzUyOTAzMjgxfQ.puXy5_edqKghO5kahHwxRGzeLTISSrWAD39dtIWXelAI6WyTOPLu-FbWJYuLFDFHLfJ5_KZgvQfzj6JkW3W_3A";
+    return "Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBkYWwuY2EiLCJpYXQiOjE3NTMyMDkxMzcsImV4cCI6MTc1MzIxMjczN30.52yH_Bq5CrDNSbHqXnIZUU75VqsJIS61Mquhu53nRHRjrnhdXACRLA1fMrsdiHgd-5H_6D-XPjM11VsmNzXgIQ";
 }
