@@ -12,9 +12,11 @@ const Reservation = ({ restaurant }) => {
     const handleTimeChange = (e) => {
         const selected = new Date(e.target.value);
         const nowPlus30Min = new Date(Date.now() + 30 * 60 * 1000);
-
+        const selectedHours = selected.getHours();
         if (selected < nowPlus30Min) {
             setError('Please select a time at least 30 minutes from now.');
+        } else if (selectedHours < 10 || selectedHours >= 22) {
+            setError('Booking time must be between 10:00 AM and 10:00 PM.');
         } else {
             setError('');
             setReservationTime(e.target.value);
