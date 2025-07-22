@@ -10,7 +10,7 @@ import { Spinner } from '../components/spinner';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { restaurants, isRestaurantsLoading } = useSelector((state) => state.restaurants);
+  const { restaurants, isLoading } = useSelector((state) => state.restaurants);
 
   const [showModal, setShowModal] = useState(true);
   const [priceRange, setPriceRange] = useState(100); // default max
