@@ -1,19 +1,29 @@
-import { useEffect, useState } from 'react';
-import FilterSidebar from '../components/filterBar';
-import RestaurantCard from '../components/restaurantCard';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurants, filterRestaurants } from '../store/effects/restaurantEffects';
+import FilterSidebar from '../components/filterBar';
+import RestaurantCard from '../components/restaurantCard';
 import Modal from '../components/modal';
+import { debounce } from 'lodash';
 import { Spinner } from '../components/spinner';
+
 
 const Home = () => {
   const dispatch = useDispatch();
   const { restaurants, isLoading } = useSelector((state) => state.restaurants);
-  const [showModal, setShowModal] = useState(true)
-  const [keywords, setKeywords] = useState(['Spicy', 'Tacos', 'Nachos']);
-  const [priceRange, setPriceRange] = useState(58);
-  const [cuisines, setCuisines] = useState({ Indian: true, Mexican: true, Lebanese: true });
-  const [types, setTypes] = useState({ Cafe: true, 'Fine Dining': true, 'Food Truck': true });
+
+  const [showModal, setShowModal] = useState(true);
+  const [priceRange, setPriceRange] = useState(100); // default max
+  const [cuisines, setCuisines] = useState({
+    Indian: false,
+    Mexican: false,
+    Lebanese: false,
+  });
+  const [types, setTypes] = useState({
+    Cafe: false,
+    'Fine Dining': false,
+    'Food Truck': false,
+  });
 
   // Initial fetch
   useEffect(() => {
@@ -21,20 +31,35 @@ const Home = () => {
     console.log(isLoading)
   }, [dispatch]);
 
-  // Refetch when filters change
+  // Debounced filter function
+  const debouncedFilter = useMemo(
+    () =>
+      debounce((payload) => {
+        dispatch(filterRestaurants(payload));
+      }, 300),
+    [dispatch]
+  );
+
+  // Trigger filter on every change
   useEffect(() => {
-    const selectedCuisines = Object.entries(cuisines).filter(([, v]) => v).map(([k]) => k);
-    const selectedTypes = Object.entries(types).filter(([, v]) => v).map(([k]) => k);
+    const selectedCuisines = Object.entries(cuisines)
+      .filter(([, v]) => v)
+      .map(([k]) => k);
+    const selectedTypes = Object.entries(types)
+      .filter(([, v]) => v)
+      .map(([k]) => k);
 
     const payload = {
       cuisines: selectedCuisines,
       types: selectedTypes,
       priceRange,
-      keywords,
+      keywords: [], // removed, backend expects this
     };
 
-    dispatch(filterRestaurants(payload));
-  }, [cuisines, types, priceRange, keywords]);
+    debouncedFilter(payload);
+
+    return () => debouncedFilter.cancel(); // cleanup
+  }, [cuisines, types, priceRange, debouncedFilter]);
 
   return (
     <main className="relative">
@@ -48,8 +73,6 @@ const Home = () => {
             setCuisines={setCuisines}
             types={types}
             setTypes={setTypes}
-            keywords={keywords}
-            setKeywords={setKeywords}
             priceRange={priceRange}
             setPriceRange={setPriceRange}
           />
@@ -65,8 +88,11 @@ const Home = () => {
                   id={restaurant?.id}
                   name={restaurant.name}
                   distance="1.2 km"
-                  priceRange={`$${restaurant.priceRange} Per Person`}
-                  imageUrl={restaurant.img || 'https://via.placeholder.com/400x300?text=Image'}
+                  priceRange={`$${restaurant?.priceRange} Per Person`}
+                  imageUrl={
+                    restaurant?.img ||
+                    'https://via.placeholder.com/400x300?text=Image'
+                  }
                 />
               ))}
             </div>
