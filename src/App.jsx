@@ -6,6 +6,7 @@ import Restaurant from './pages/restaurant';
 import Login from './pages/login';
 import Signup from './pages/signUp';
 import NotFound from './pages/notFound';
+import AdminDashboard from './pages/AdminDashboard';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from 'react';
@@ -61,7 +62,7 @@ function Layout() {
           path="/admin"
           element={
             <ProtectedRoute>
-              <div>Admin Page</div>
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />
