@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({isAdmin}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -32,15 +32,15 @@ const Navbar = () => {
             Dine Connect
           </Link>
           <div className="flex items-center justify-center space-x-4">
-            <input
+            {!isAdmin && <input
               type="search"
               placeholder="Search..."
               className="hidden sm:block w-full max-w-md px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-1 focus:ring-gray-400"
-            />
+            />}
             <div className="hidden md:flex space-x-2">
-              <a href="#home" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">User</a>
+              {!isAdmin && <><a href="#home" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">User</a>
               <a href="#about" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">Owner</a>
-              {isLoggedIn ? (
+             </> }{isLoggedIn ? (
                 <button
                   onClick={handleLogout}
                   className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded"

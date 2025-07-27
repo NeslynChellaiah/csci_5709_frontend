@@ -5,13 +5,14 @@ import CreateRestaurantModal from '../components/admin/CreateRestaurantModal';
 import AdminNavbar from '../components/admin/AdminNavbar';
 import axios from 'axios';
 import { BASE_URL, getToken } from '../../constants';
-
+import { toast } from 'react-toastify';
+import Navbar from '../components/navbar';
 const AdminDashboard = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState(null);
   const [createOpen, setCreateOpen] = useState(false);
-
+const [isLoading, setIsLoading] = useState(true);
   const fetchRestaurants = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/restaurants`, {
@@ -20,8 +21,9 @@ const AdminDashboard = () => {
       setRestaurants(res.data.data);
       setFiltered(res.data.data);
     } catch (err) {
-      console.error("Error fetching restaurants", err);
+      toast.error(err?.response?.data?.message);
     }
+    setIsLoading(false)
   };
 
   useEffect(() => {
@@ -30,9 +32,10 @@ const AdminDashboard = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-    <AdminNavbar />
+    <Navbar isAdmin={true}/>
     <div className="flex min-h-screen">
       <RestaurantList
+        isLoading={isLoading}
         restaurants={filtered}
         setFiltered={setFiltered}
         all={restaurants}

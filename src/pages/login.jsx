@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL, getRole, getToken } from '../../constants';
+import { BASE_URL, getRole } from '../../constants';
+import { Spinner } from '../components/spinner';
+import { toast } from 'react-toastify';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -20,7 +22,7 @@ const Login = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-
+  setIsLoading(true);
   try {
     const response = await axios.post(`${BASE_URL}/auth/login`, {
       email,
@@ -38,8 +40,9 @@ const handleSubmit = async (e) => {
       navigate('/');
     }
   } catch (error) {
-    // toast
+          toast.error(error?.response?.data?.error);
   }
+  setIsLoading(false)
 };
 
 
@@ -67,9 +70,21 @@ const handleSubmit = async (e) => {
             Create New Account
           </span>
         </p>
-        <button type="submit" className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
-          Login
-        </button>
+{isLoading ? (
+  <Spinner />
+) : (
+  <button
+    type="submit"
+    className={`w-full text-white py-2 rounded-md ${
+      email && password
+        ? 'bg-black hover:bg-gray-800'
+        : 'bg-black opacity-50 cursor-not-allowed'
+    }`}
+    disabled={!email || !password}
+  >
+    Login
+  </button>
+)}
       </form>
     </div>
   );

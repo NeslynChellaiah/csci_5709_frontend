@@ -11,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AddReview from '../components/addReview'
 import { Spinner } from '../components/spinner'
 import Modal from '../components/modal'
+import { toast } from 'react-toastify'
 
 
 const Restaurant = () => {
@@ -42,8 +43,9 @@ const Restaurant = () => {
           });
           // Ensure reviews is always an array
           setReviews(Array.isArray(response.data.data) ? response.data.data : []);
-        } catch (error) {
-          console.error('Error fetching reviews:', error);
+        } catch (err) {
+                toast.error(err?.response?.data?.message);
+          
           setReviews([]); // fallback to empty array on error
         }
       } else {
@@ -53,7 +55,9 @@ const Restaurant = () => {
     fetchReviewsByUrl();
   }, [restaurant]);
   return (
-     (isLoading ? <Spinner /> : <div className="flex-1 justify-center">
+     (isLoading ?<div className="flex items-center justify-center h-[100vh] w-full">
+    <Spinner />
+  </div> : <div className="flex-1 justify-center">
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
       <div className="overflow-y-auto max-h-[calc(100vh-4rem)] pr-2">
         <ImageCarousel images={restaurant?.imageUrls} />

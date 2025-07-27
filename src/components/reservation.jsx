@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { BASE_URL, getToken } from '../../constants';
 import AddReview from './addReview';
+import { toast } from 'react-toastify';
+import {Spinner} from './spinner';
 
 const Reservation = ({ restaurant }) => {
     const [tableFor, setTableFor] = useState('2');
     const [reservationTime, setReservationTime] = useState('');
     const [error, setError] = useState('');
-
+const [isLoading, setIsLoading] = useState(false)
 
     const handleTimeChange = (e) => {
         const selected = new Date(e.target.value);
@@ -28,6 +30,7 @@ const Reservation = ({ restaurant }) => {
         .slice(0, 16);
 
     const reserve = () => {
+        setIsLoading(true)
         axios.post(BASE_URL + '/bookings', {
             "restaurantId": restaurant?.id,
             "bookingDate": reservationTime,
@@ -39,12 +42,15 @@ const Reservation = ({ restaurant }) => {
             },
         })
             .then(response => {
-                // toast
+                      toast.success("Restaurant created successfully");
+                setIsLoading(false)
                 setReservationTime('')
                 setTableFor(2)
             })
-            .catch(error => {
-                // toast
+            .catch(err => {
+                console.log(err)
+                      toast.error(err?.response?.data?.error);
+                setIsLoading(false)
             });
     }
 
@@ -101,7 +107,7 @@ const Reservation = ({ restaurant }) => {
                     {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
                 </div>
             </div>
-            <button
+            {isLoading ? <Spinner /> :<button
                 disabled={!reservationTime || error}
                 className={`mt-6 px-6 py-2 rounded-md text-white font-medium transition w-full ${!reservationTime || error
                     ? 'bg-gray-400 cursor-not-allowed'
@@ -110,7 +116,7 @@ const Reservation = ({ restaurant }) => {
                 onClick={reserve}
             >
                 Reserve
-            </button>
+            </button>}
         </div>
     );
 };
