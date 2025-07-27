@@ -33,8 +33,6 @@ const Login = () => {
   
       const token = response?.data?.token;
   
-      console.log("JWT Token:", token);
-  
       localStorage.setItem('token', token);
       const decoded = JSON.parse(atob(token.split('.')[1]));
       const role = decoded?.role;
