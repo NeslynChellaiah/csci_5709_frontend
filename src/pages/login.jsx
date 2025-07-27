@@ -11,7 +11,7 @@ const Login = () => {
     const token = localStorage.getItem('token');
     if (token) {
       if (getRole() == "ADMIN") {
-        console.log(2)
+        console.log(token)
         navigate('/admin');
       } else {
         navigate('/');
@@ -19,24 +19,31 @@ const Login = () => {
     } 
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      console.log('Submitting Login:', { email, password });
-      const response = await axios.post(`${BASE_URL}/auth/login`, {
-        email,
-        password,
-      });
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/login`, {
+      email,
+      password,
+    });
 
-      localStorage.setItem("token", response?.data?.token);
+    const token = response?.data?.token;
+    localStorage.setItem("token", token);
 
+    const role = getRole(); // Now it will work correctly
+
+    if (role === 'ADMIN') {
+      navigate('/admin');
+    } else {
       navigate('/');
-    } catch (error) {
-      console.error('Invalid Email or Password', error);
-      alert('Please try again using correct email and password');
     }
-  };
+  } catch (error) {
+    console.error('Invalid Email or Password', error);
+    alert('Please try again using correct email and password');
+  }
+};
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
