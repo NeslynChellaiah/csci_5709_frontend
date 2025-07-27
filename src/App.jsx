@@ -22,7 +22,6 @@ import { useEffect } from 'react';
 import { isTokenExpired } from './utils';
 import { getRole } from '../constants';
 
-// ✅ Protected Route Component with Role Check
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const token = localStorage.getItem('token');
   const role = getRole();
@@ -58,6 +57,7 @@ function Layout() {
   const path = location.pathname;
   const role = getRole();
 
+  const hideNav = role === 'ADMIN' || !(path === '/' || path.startsWith('/restaurant'));
   useEffect(() => {
     if (isTokenExpired()) {
       localStorage.removeItem('token');
@@ -100,7 +100,6 @@ function Layout() {
           }
         />
 
-        {/* 👇 ADMIN Route */}
         <Route
           path="/admin"
           element={

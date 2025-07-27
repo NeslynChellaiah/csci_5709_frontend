@@ -81,10 +81,10 @@ const RestaurantEditor = ({ restaurant, onUpdated }) => {
         />
       </div>
       <div className="mt-4 flex gap-4">
-        <button onClick={handleUpdate} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        <button onClick={handleUpdate} className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
           Save Changes
         </button>
-        <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+        <button onClick={handleDelete} className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
           Delete
         </button>
       </div>

@@ -46,7 +46,7 @@ const CreateRestaurantModal = ({ isOpen, onClose, onCreated }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/25 bg-opacity-40 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-md w-[550px]">
         <h2 className="text-xl font-semibold mb-6">Add New Restaurant</h2>
 
@@ -109,8 +109,8 @@ const CreateRestaurantModal = ({ isOpen, onClose, onCreated }) => {
         </div>
 
         <div className="mt-6 flex justify-end gap-4">
-          <button onClick={onClose} className="bg-gray-300 px-4 py-2 rounded">Cancel</button>
-          <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Create</button>
+          <button onClick={onClose} className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">Cancel</button>
+          <button onClick={handleSubmit} className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">Create</button>
         </div>
       </div>
     </div>

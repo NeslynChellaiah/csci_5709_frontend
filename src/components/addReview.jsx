@@ -5,6 +5,7 @@ import { BASE_URL, getToken } from '../../constants';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { fetchRestaurantById } from '../store/effects/restaurantEffects';
+import { toast } from 'react-toastify';
 
 const AddReview = ({ isOpen, onClose, id }) => {
   const [rating, setRating] = useState(0);
@@ -26,7 +27,8 @@ const dispatch = useDispatch()
             .then(response => {
                 dispatch(fetchRestaurantById(id));
             })
-            .catch(error => {
+            .catch(err => {
+                    toast.error(err?.response?.data?.message);
             });
     }
 
@@ -102,7 +104,7 @@ const dispatch = useDispatch()
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+                className="px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300"
               >
                 Cancel
               </button>
