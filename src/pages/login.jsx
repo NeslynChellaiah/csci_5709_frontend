@@ -30,7 +30,7 @@ const handleSubmit = async (e) => {
     const token = response?.data?.token;
     localStorage.setItem("token", token);
 
-    const role = getRole(); // Now it will work correctly
+    const role = getRole();
 
     if (role === 'ADMIN') {
       navigate('/admin');
