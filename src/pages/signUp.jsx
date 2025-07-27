@@ -13,11 +13,13 @@ const Signup = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
         if (token) {
-          if (getRole() == "ADMIN") {
+          if (role === 'ADMIN') {
             navigate('/admin');
+          } else if (role === 'OWNER') {
+            navigate('/owner');
           } else {
             navigate('/');
-          }
+          }          
         }
   }, [navigate]);
 

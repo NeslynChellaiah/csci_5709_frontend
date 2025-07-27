@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL, getRole, getToken } from '../../constants';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,38 +11,57 @@ const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      if (getRole() == "ADMIN") {
+      const role = getRole();
+      if (role === 'ADMIN') {
         navigate('/admin');
+      } else if (role === 'OWNER') {
+        navigate('/owner');
       } else {
         navigate('/');
       }
-    } 
+    }
   }, [navigate]);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
+        email,
+        password,
+      });
+  
+      const token = response?.data?.token;
+  
+      console.log("JWT Token:", token);
+  
+      localStorage.setItem('token', token);
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const role = decoded?.role;
 
-  try {
-    const response = await axios.post(`${BASE_URL}/auth/login`, {
-      email,
-      password,
-    });
 
-    const token = response?.data?.token;
-    localStorage.setItem("token", token);
-
-    const role = getRole(); // Now it will work correctly
-
-    if (role === 'ADMIN') {
-      navigate('/admin');
-    } else {
-      navigate('/');
+  
+      if (role === 'ADMIN') {
+        navigate('/admin');
+      } else if (role === 'OWNER') {
+        navigate('/owner');
+      } else {
+        navigate('/');
+      }
+  
+    } catch (error) {
+      if (error.response) {
+        console.error('Login failed:', error.response.data);
+        console.error('Status:', error.response.status);
+        console.error('Headers:', error.response.headers);
+      } else if (error.request) {
+        console.error('No response received:', error.request);
+      } else {
+        console.error('Error setting up request:', error.message);
+      }
     }
-  } catch (error) {
-    // toast
-  }
-};
-
+  };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -74,4 +94,5 @@ const handleSubmit = async (e) => {
     </div>
   );
 };
+
 export default Login;

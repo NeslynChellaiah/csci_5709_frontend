@@ -9,11 +9,13 @@ import {
 import './App.css';
 import Home from './pages/home';
 import NavBar from './components/navBar';
+import OwnerNavBar from './components/ownerNavBar';
 import Restaurant from './pages/restaurant';
 import Login from './pages/login';
 import Signup from './pages/signUp';
 import NotFound from './pages/notFound';
 import AdminDashboard from './pages/AdminDashboard';
+import OwnerDashboard from './pages/OwnerDashboard';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from 'react';
@@ -30,9 +32,10 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
-    // If role not allowed, redirect based on role
     return role === 'ADMIN' ? (
       <Navigate to="/admin" replace />
+    ) : role === 'OWNER' ? (
+      <Navigate to="/owner" replace />
     ) : (
       <Navigate to="/" replace />
     );
@@ -55,9 +58,6 @@ function Layout() {
   const path = location.pathname;
   const role = getRole();
 
-  // ✅ Hide navbar for ADMIN or pages that don't need it
-  const hideNav = role === 'ADMIN' || !(path === '/' || path.startsWith('/restaurant'));
-
   useEffect(() => {
     if (isTokenExpired()) {
       localStorage.removeItem('token');
@@ -67,10 +67,17 @@ function Layout() {
     }
   }, [path, navigate]);
 
+  // Determine which navbar to show
+  const showUserNav = role === 'USER' && (path === '/' || path.startsWith('/restaurant'));
+  const showOwnerNav = role === 'OWNER' && path.startsWith('/owner');
+
   return (
     <>
-      {!hideNav && <NavBar />}
+      {showUserNav && <NavBar />}
+      {showOwnerNav && <OwnerNavBar />}
+
       <ToastContainer position="top-right" autoClose={3000} />
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -99,6 +106,16 @@ function Layout() {
           element={
             <ProtectedRoute allowedRoles={['ADMIN']}>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* OWNER Route */}
+        <Route
+          path="/owner"
+          element={
+            <ProtectedRoute allowedRoles={['OWNER']}>
+              <OwnerDashboard />
             </ProtectedRoute>
           }
         />
