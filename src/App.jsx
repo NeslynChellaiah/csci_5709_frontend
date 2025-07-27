@@ -1,4 +1,11 @@
-import { BrowserRouter, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 import './App.css';
 import Home from './pages/home';
 import NavBar from './components/navBar';
@@ -11,11 +18,27 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from 'react';
 import { isTokenExpired } from './utils';
+import { getRole } from '../constants';
 
-// Protected Route Component
-const ProtectedRoute = ({ children }) => {
+// ✅ Protected Route Component with Role Check
+const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" replace />;
+  const role = getRole();
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
+    // If role not allowed, redirect based on role
+    return role === 'ADMIN' ? (
+      <Navigate to="/admin" replace />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  }
+
+  return children;
 };
 
 function App() {
@@ -30,8 +53,10 @@ function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
+  const role = getRole();
 
-  const hideNav = !(path == '/' || ['/restaurant'].some(p => path.startsWith(p)));
+  // ✅ Hide navbar for ADMIN or pages that don't need it
+  const hideNav = role === 'ADMIN' || !(path === '/' || path.startsWith('/restaurant'));
 
   useEffect(() => {
     if (isTokenExpired()) {
@@ -50,27 +75,30 @@ function Layout() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
+        {/* 👇 USER Routes */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute allowedRoles={['USER']}>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/restaurant/:id"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['USER']}>
               <Restaurant />
             </ProtectedRoute>
           }
         />
+
+        {/* 👇 ADMIN Route */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['ADMIN']}>
               <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
             </ProtectedRoute>
           }
         />

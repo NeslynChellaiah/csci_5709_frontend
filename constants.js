@@ -8,7 +8,6 @@ export const getRole = () => {
     if (token) {
         const base64Payload = token.split('.')[1];
         const decodedPayload = JSON.parse(atob(base64Payload));
-        console.log(decodedPayload?.role)
         return decodedPayload.role;
     }
 }
