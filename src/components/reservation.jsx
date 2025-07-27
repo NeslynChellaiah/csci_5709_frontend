@@ -39,12 +39,12 @@ const Reservation = ({ restaurant }) => {
             },
         })
             .then(response => {
-                console.log('Booking successful:', response.data);
+                // toast
                 setReservationTime('')
                 setTableFor(2)
             })
             .catch(error => {
-                console.error('Booking failed:', error);
+                // toast
             });
     }
 

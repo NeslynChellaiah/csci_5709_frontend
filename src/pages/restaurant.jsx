@@ -31,7 +31,6 @@ const Restaurant = () => {
 
 
   useEffect(() => {
-    console.log(restaurant, isLoading)
     const fetchReviewsByUrl = async () => {
       if (restaurant?.overallReview?.href) {
         try {

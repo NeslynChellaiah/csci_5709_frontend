@@ -11,7 +11,6 @@ const Login = () => {
     const token = localStorage.getItem('token');
     if (token) {
       if (getRole() == "ADMIN") {
-        console.log(token)
         navigate('/admin');
       } else {
         navigate('/');
@@ -39,8 +38,7 @@ const handleSubmit = async (e) => {
       navigate('/');
     }
   } catch (error) {
-    console.error('Invalid Email or Password', error);
-    alert('Please try again using correct email and password');
+    // toast
   }
 };
 

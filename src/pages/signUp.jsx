@@ -14,7 +14,6 @@ const Signup = () => {
     const token = localStorage.getItem('token');
         if (token) {
           if (getRole() == "ADMIN") {
-            console.log(2)
             navigate('/admin');
           } else {
             navigate('/');
@@ -26,7 +25,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      console.log('Submitting Signup:', { username, email, password });
+      // toast
       const response = await axios.post(`${BASE_URL}/auth/register`, {
         username,
         email,
