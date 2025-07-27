@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { BASE_URL, getToken } from '../../constants';
+import { BASE_URL } from '../../constants';
+import { getTokenFromStore } from '../utils/authUtils';
 import AddReview from './addReview';
 
 const Reservation = ({ restaurant }) => {
@@ -35,7 +36,7 @@ const Reservation = ({ restaurant }) => {
             "numberOfGuests": tableFor
         }, {
             headers: {
-                Authorization: `${getToken()}`,
+                Authorization: getTokenFromStore(),
             },
         })
             .then(response => {

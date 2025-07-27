@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { BASE_URL, getToken } from '../../../constants';
+import { BASE_URL } from '../../../constants';
+import { getTokenFromStore } from '../../utils/authUtils';
 import { toast } from 'react-toastify';
 
 const CreateRestaurantModal = ({ isOpen, onClose, onCreated }) => {
@@ -27,7 +28,7 @@ const CreateRestaurantModal = ({ isOpen, onClose, onCreated }) => {
     };
     try {
       await axios.post(`${BASE_URL}/admin/restaurant`, payload, {
-        headers: { Authorization: getToken() },
+        headers: { Authorization: getTokenFromStore() },
       });
       toast.success("Restaurant created");
       setForm({

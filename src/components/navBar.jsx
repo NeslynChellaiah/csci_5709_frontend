@@ -1,22 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearToken } from '../store/actions/authActions';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
-    const loggedIn = localStorage.getItem('token');
-    if (loggedIn) {
-      setIsLoggedIn(true);
-    }
-    else {
-      setIsLoggedIn(false);
-    }
-  });
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    dispatch(clearToken());
     navigate('/login');
   };
 
@@ -40,7 +35,7 @@ const Navbar = () => {
             <div className="hidden md:flex space-x-2">
               <a href="#home" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">User</a>
               <a href="#about" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">Owner</a>
-              {isLoggedIn ? (
+              {isAuthenticated ? (
                 <button
                   onClick={handleLogout}
                   className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded"
@@ -69,7 +64,7 @@ const Navbar = () => {
         <div className="md:hidden bg-white px-4 pt-2 pb-4 space-y-2">
           <a href="#home" className="block text-gray-600 hover:text-black">Home</a>
           <a href="#about" className="block text-gray-600 hover:text-black">About</a>
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <button onClick={handleLogout} className="block text-left w-full text-gray-600 hover:text-black">Logout</button>
           ) : (
             <button onClick={handleLoginRedirect} className="block text-left w-full text-gray-600 hover:text-black">Login</button>

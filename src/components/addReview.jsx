@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { BASE_URL, getToken } from '../../constants';
+import { BASE_URL } from '../../constants';
+import { getTokenFromStore } from '../utils/authUtils';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { fetchRestaurantById } from '../store/effects/restaurantEffects';
@@ -20,7 +21,7 @@ const dispatch = useDispatch()
   const addReview = (review) => {
         axios.post(BASE_URL + `/restaurants/${id}/reviews`, review, {
             headers: {
-                Authorization: `${getToken()}`,
+                Authorization: getTokenFromStore(),
             },
         })
             .then(response => {
