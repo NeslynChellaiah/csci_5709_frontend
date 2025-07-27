@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { BASE_URL, getRole } from '../../constants';
+import { Spinner } from '../components/spinner';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -23,9 +25,8 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+setIsLoading(true)
     try {
-      // toast
       const response = await axios.post(`${BASE_URL}/auth/register`, {
         username,
         email,
@@ -35,8 +36,9 @@ const Signup = () => {
       toast.success('Account created successfully');
       navigate('/');
     } catch (error) {
-      toast.error('User already exist');
+      toast.error(error?.response?.data?.error);
     }
+    setIsLoading(false);
   };
 
 
@@ -72,9 +74,18 @@ const Signup = () => {
             Sign In to your account
           </span>
         </p>
-        <button type="submit" className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
-          Sign Up
-        </button>
+        {isLoading ? (
+ <Spinner />
+) : (
+  <button
+    type="submit"
+    className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 disabled:opacity-50"
+    disabled={!username || !email || !password}
+  >
+    Sign Up
+  </button>
+)}
+
       </form>
     </div>
   );

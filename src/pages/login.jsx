@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL, getRole } from '../../constants';
 import { Spinner } from '../components/spinner';
+import { toast } from 'react-toastify';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +40,7 @@ const handleSubmit = async (e) => {
       navigate('/');
     }
   } catch (error) {
-    // toast
+          toast.error(error?.response?.data?.error);
   }
   setIsLoading(false)
 };
