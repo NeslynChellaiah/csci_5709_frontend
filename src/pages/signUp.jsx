@@ -74,17 +74,22 @@ setIsLoading(true)
             Sign In to your account
           </span>
         </p>
-        {isLoading ? (
- <Spinner />
+{isLoading ? (
+  <Spinner />
 ) : (
   <button
     type="submit"
-    className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 disabled:opacity-50"
+    className={`w-full text-white py-2 rounded-md ${
+      username && email && password
+        ? 'bg-black hover:bg-gray-800'
+        : 'bg-black opacity-50 cursor-not-allowed'
+    }`}
     disabled={!username || !email || !password}
   >
     Sign Up
   </button>
 )}
+
 
       </form>
     </div>

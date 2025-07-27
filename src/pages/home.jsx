@@ -60,7 +60,7 @@ const Home = () => {
 
   return (
     <main className="relative">
-        {isLoading ? <Spinner /> : 
+       
       <div className="flex">
         {/* Sidebar */}
         <div className="w-80 p-6">
@@ -75,6 +75,10 @@ const Home = () => {
         </div>
 
         {/* Main content */}
+         
+            {isLoading ? <div className="flex items-center justify-center h-[calc(100vh-6rem)] w-full">
+    <Spinner />
+  </div> : 
         <div className="flex-1 mt-6">
           <div className="overflow-y-auto max-h-[calc(100vh-6rem)] pr-2">
             <div className="flex flex-wrap gap-6">
@@ -94,8 +98,8 @@ const Home = () => {
             </div>
           </div>
         </div>
+}
       </div>
-    }
     </main>
   );
 };

@@ -8,6 +8,7 @@ import {
   setRestaurant,
 } from '../actions/restaurantActions';
 import { BASE_URL, getToken } from '../../../constants';
+import { toast } from 'react-toastify';
 
 export const fetchRestaurants = () => async (dispatch) => {
   dispatch(setLoading(true));
@@ -20,6 +21,7 @@ export const fetchRestaurants = () => async (dispatch) => {
     dispatch(setRestaurants(response.data));
     dispatch(setLoading(false));
   } catch (err) {
+          toast.error(err?.response?.data?.message);
     dispatch(setError(err.response?.data?.message || err.message || 'Failed to fetch'));
     dispatch(setLoading(false));
   }
@@ -36,6 +38,8 @@ export const filterRestaurants = (filterData) => async (dispatch) => {
     dispatch(setRestaurants(response.data));
     dispatch(setLoading(false));
   } catch (err) {
+          toast.error(err?.response?.data?.message);
+    
     dispatch(setError(err.response?.data?.message || err.message || 'Failed to filter'));
     dispatch(setLoading(false));
   }
@@ -53,6 +57,8 @@ export const fetchRestaurantById = (id, navigate) => async (dispatch) => {
     dispatch(setRestaurant(response.data));
     dispatch(setLoading(false))
   } catch (err) {
+          toast.error(err?.response?.data?.message);
+    
     dispatch(
       setError(err.response?.data?.message || err.message || 'Failed to fetch')
     );

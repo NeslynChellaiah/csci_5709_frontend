@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Spinner } from '../spinner';
 
-const RestaurantList = ({ restaurants, setFiltered, all, onSelect, onCreate }) => {
+const RestaurantList = ({ restaurants, setFiltered, all, onSelect, onCreate, isLoading }) => {
   const [search, setSearch] = useState('');
 
   const handleSearch = (e) => {
@@ -25,12 +26,13 @@ const RestaurantList = ({ restaurants, setFiltered, all, onSelect, onCreate }) =
         className="w-full mb-4 px-3 py-2 border rounded"
       />
       <button
-        className="w-full bg-blue-600 text-white py-2 mb-4 rounded hover:bg-blue-700"
-        onClick={onCreate}
-      >
-        + Add Restaurant
-      </button>
-      <ul className="space-y-2 max-h-[70vh] overflow-auto">
+          className="bg-black w-full mb-4 hover:bg-gray-800 px-6 py-2 rounded-md text-white font-medium transition cursor-pointer"
+          onClick={onCreate}
+        >
+          Add Restaurant
+        </button>
+
+      {isLoading ? <Spinner /> : <ul className="space-y-2 max-h-[70vh] overflow-auto">
         {restaurants.map((r) => (
           <li
             key={r.id}
@@ -41,7 +43,7 @@ const RestaurantList = ({ restaurants, setFiltered, all, onSelect, onCreate }) =
             <p className="text-xs text-gray-500">{r.cuisine}</p>
           </li>
         ))}
-      </ul>
+      </ul>}
     </div>
   );
 };
