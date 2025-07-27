@@ -4,7 +4,8 @@ import RestaurantEditor from '../components/admin/RestaurantEditor';
 import CreateRestaurantModal from '../components/admin/CreateRestaurantModal';
 import AdminNavbar from '../components/admin/AdminNavbar';
 import axios from 'axios';
-import { BASE_URL, getToken } from '../../constants';
+import { BASE_URL } from '../../constants';
+import { getTokenFromStore } from '../utils/authUtils';
 
 const AdminDashboard = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -15,7 +16,7 @@ const AdminDashboard = () => {
   const fetchRestaurants = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/restaurants`, {
-        headers: { Authorization: getToken() },
+        headers: { Authorization: getTokenFromStore() },
       });
       setRestaurants(res.data.data);
       setFiltered(res.data.data);

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import './App.css';
 import Home from './pages/home';
 import NavBar from './components/navBar';
@@ -11,11 +12,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from 'react';
 import { isTokenExpired } from './utils';
+import { clearToken } from './store/actions/authActions';
+import { getTokenFromStore } from './utils/authUtils';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" replace />;
+  const { token, isAuthenticated } = useSelector((state) => state.auth);
+  return isAuthenticated && token ? children : <Navigate to="/login" replace />;
 };
 
 function App() {
@@ -29,18 +32,20 @@ function App() {
 function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
   const path = location.pathname;
 
   const hideNav = !(path == '/' || ['/restaurant'].some(p => path.startsWith(p)));
 
   useEffect(() => {
-    if (isTokenExpired()) {
-      localStorage.removeItem('token');
+    if (token && isTokenExpired(token)) {
+      dispatch(clearToken());
       if (path !== '/login' && path !== '/signup') {
         navigate('/login');
       }
     }
-  }, [path, navigate]);
+  }, [path, navigate, token, dispatch]);
 
   return (
     <>

@@ -7,14 +7,15 @@ import {
   setError,
   setRestaurant,
 } from '../actions/restaurantActions';
-import { BASE_URL, getToken } from '../../../constants';
+import { BASE_URL } from '../../../constants';
+import { getTokenFromStore } from '../../utils/authUtils';
 
 export const fetchRestaurants = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const response = await axios.get(`${BASE_URL}/restaurants`, {
       headers: {
-        Authorization: `${getToken()}`,
+        Authorization: getTokenFromStore(),
       },
     });
     dispatch(setRestaurants(response.data));
@@ -30,7 +31,7 @@ export const filterRestaurants = (filterData) => async (dispatch) => {
   try {
     const response = await axios.post(`${BASE_URL}/restaurants/filter`, filterData, {
       headers: {
-        Authorization: `${getToken()}`,
+        Authorization: getTokenFromStore(),
       },
     });
     dispatch(setRestaurants(response.data));
@@ -47,7 +48,7 @@ export const fetchRestaurantById = (id, navigate) => async (dispatch) => {
   try {
     const response = await axios.get(`${BASE_URL}/restaurants/${id}`, {
       headers: {
-        Authorization: `${getToken()}`,
+        Authorization: getTokenFromStore(),
       },
     });
     dispatch(setRestaurant(response.data));

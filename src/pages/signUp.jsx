@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { BASE_URL, getRole } from '../../constants';
+import { BASE_URL } from '../../constants';
+import { getRoleFromStore } from '../utils/authUtils';
+import { setToken } from '../store/actions/authActions';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-        if (token) {
-          if (getRole() == "ADMIN") {
-            console.log(2)
-            navigate('/admin');
-          } else {
-            navigate('/');
-          }
-        }
-  }, [navigate]);
+    if (token) {
+      const role = getRoleFromStore();
+      if (role == "ADMIN") {
+        console.log(2)
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
+    }
+  }, [navigate, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,15 +37,13 @@ const Signup = () => {
         email,
         password,
       });
-      localStorage.setItem("token", response?.data?.token);
+      dispatch(setToken(response?.data?.token));
       toast.success('Account created successfully');
       navigate('/');
     } catch (error) {
       toast.error('User already exist');
     }
   };
-
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">

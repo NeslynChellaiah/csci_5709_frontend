@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BASE_URL, getToken } from '../../../constants';
+import { BASE_URL } from '../../../constants';
+import { getTokenFromStore } from '../../utils/authUtils';
 import { toast } from 'react-toastify';
 
 const RestaurantEditor = ({ restaurant, onUpdated }) => {
@@ -27,7 +28,7 @@ const RestaurantEditor = ({ restaurant, onUpdated }) => {
         imageUrls: imageUrlsText.split(',').map(v => v.trim()).filter(Boolean),
       };
       await axios.put(`${BASE_URL}/admin/restaurant/${restaurant.id}`, payload, {
-        headers: { Authorization: getToken() },
+        headers: { Authorization: getTokenFromStore() },
       });
       toast.success("Updated successfully");
       onUpdated();
@@ -41,7 +42,7 @@ const RestaurantEditor = ({ restaurant, onUpdated }) => {
     if (!window.confirm("Are you sure to delete this restaurant?")) return;
     try {
       await axios.delete(`${BASE_URL}/admin/restaurant/${restaurant.id}`, {
-        headers: { Authorization: getToken() },
+        headers: { Authorization: getTokenFromStore() },
       });
       toast.success("Deleted successfully");
       onUpdated(true);

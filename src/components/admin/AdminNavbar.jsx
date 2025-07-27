@@ -1,11 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearToken } from '../../store/actions/authActions';
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    dispatch(clearToken());
     navigate('/login');
   };
 

@@ -4,7 +4,8 @@ import Reservation from '../components/reservation'
 import RestaurantMap from '../components/restaurantMap'
 import RestaurantReviews from '../components/restaurantReviews'
 import axios from 'axios'
-import { BASE_URL, getToken } from '../../constants'
+import { BASE_URL } from '../../constants'
+import { getTokenFromStore } from '../utils/authUtils'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRestaurantById } from '../store/effects/restaurantEffects'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -38,7 +39,7 @@ const Restaurant = () => {
           const url = `${BASE_URL.slice(0, -4)}${restaurant.overallReview.href}`;
           const response = await axios.get(url, {
             headers: {
-              Authorization: `${getToken()}`,
+              Authorization: getTokenFromStore(),
             },
           });
           // Ensure reviews is always an array
