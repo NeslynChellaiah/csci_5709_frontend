@@ -98,8 +98,9 @@ const Navbar = ({isAdmin}) => {
 
       {isOpen && (
         <div className="md:hidden bg-white px-4 pt-2 pb-4 space-y-2">
-          <a href="#home" className="block text-gray-600 hover:text-black">Home</a>
-          <a href="#about" className="block text-gray-600 hover:text-black">About</a>
+          <Link to="/" className="block text-gray-600 hover:text-black">
+            Home
+          </Link>
           {isLoggedIn ? (
             <button onClick={handleLogout} className="block text-left w-full text-gray-600 hover:text-black">Logout</button>
           ) : (
