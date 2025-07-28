@@ -6,7 +6,7 @@ import AdminNavbar from '../components/admin/AdminNavbar';
 import axios from 'axios';
 import { BASE_URL, getToken } from '../../constants';
 import { toast } from 'react-toastify';
-import Navbar from '../components/navbar';
+import Navbar from '../components/navBar';
 const AdminDashboard = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [filtered, setFiltered] = useState([]);
