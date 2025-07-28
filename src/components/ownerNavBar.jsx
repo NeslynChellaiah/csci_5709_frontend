@@ -23,8 +23,8 @@ const OwnerNavBar = () => {
             Dine Connect
           </Link>
           <div className="hidden md:flex space-x-2">
-            <Link to="/" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">Home</Link>
-            <Link to="/owner" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">Dashboard</Link>
+            {/* <Link to="/" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">Home</Link>
+            <Link to="/owner" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">Dashboard</Link> */}
             {isLoggedIn && (
               <button
                 onClick={handleLogout}
