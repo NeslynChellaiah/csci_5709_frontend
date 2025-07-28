@@ -90,8 +90,8 @@ const Home = () => {
                   distance="1.2 km"
                   priceRange={`$${restaurant?.priceRange} Per Person`}
                   imageUrl={
-                    restaurant?.img ||
-                    'https://via.placeholder.com/400x300?text=Image'
+                    restaurant?.imageUrls?.[0] ||
+                    'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'
                   }
                 />
               ))}
