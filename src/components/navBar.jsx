@@ -38,9 +38,7 @@ const Navbar = ({isAdmin}) => {
               className="hidden sm:block w-full max-w-md px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-1 focus:ring-gray-400"
             />}
             <div className="hidden md:flex space-x-2">
-              {!isAdmin && <><a href="#home" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">User</a>
-              <a href="#about" className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded">Owner</a>
-             </> }{isLoggedIn ? (
+             {isLoggedIn ? (
                 <button
                   onClick={handleLogout}
                   className="text-gray-600 hover:text-black hover:bg-black/10 px-2 py-1 rounded"
