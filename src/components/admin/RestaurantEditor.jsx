@@ -43,6 +43,7 @@ const RestaurantEditor = ({ restaurant, onUpdated }) => {
       await axios.delete(`${BASE_URL}/admin/restaurant/${restaurant.id}`, {
         headers: { Authorization: getToken() },
       });
+      onUpdated();
       toast.success("Deleted successfully");
       onUpdated(true);
     } catch (err) {

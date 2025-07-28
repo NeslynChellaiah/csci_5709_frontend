@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import RestaurantCard from './restaurantCard';
 
 const Navbar = ({isAdmin}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
+  const { restaurants } = useSelector((state) => state.restaurants);
+
+  const filteredRestaurants = search
+    ? restaurants.filter(r => r.name.toLowerCase().includes(search.toLowerCase()))
+    : [];
+
   useEffect(() => {
     const loggedIn = localStorage.getItem('token');
     if (loggedIn) {
@@ -31,12 +40,36 @@ const Navbar = ({isAdmin}) => {
           <Link to="/" className="text-xl font-semibold text-gray-800">
             Dine Connect
           </Link>
-          <div className="flex items-center justify-center space-x-4">
-            {!isAdmin && <input
-              type="search"
-              placeholder="Search..."
-              className="hidden sm:block w-full max-w-md px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-1 focus:ring-gray-400"
-            />}
+          <div className="flex items-center justify-center space-x-4 relative">
+            {!isAdmin && (
+              <div className="w-full max-w-md relative">
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  className="hidden sm:block w-full px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-1 focus:ring-gray-400"
+                />
+                {search && filteredRestaurants.length > 0 && (
+                  <div className="absolute z-50 bg-white border border-gray-200 rounded-md mt-2 w-full max-h-80 overflow-y-auto shadow-lg">
+                    {filteredRestaurants.map((restaurant) => (
+                      <div key={restaurant.id} className="p-2 hover:bg-gray-100 cursor-pointer">
+                        <RestaurantCard
+                          id={restaurant.id}
+                          name={restaurant.name}
+                          distance={restaurant.distance || ''}
+                          priceRange={`$${restaurant.priceRange} Per Person`}
+                          imageUrl={
+                            restaurant.imageUrls?.[0] ||
+                            'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <div className="hidden md:flex space-x-2">
              {isLoggedIn ? (
                 <button
