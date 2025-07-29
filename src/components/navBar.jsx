@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import RestaurantCard from './restaurantCard';
 
-const Navbar = ({isAdmin}) => {
+const Navbar = memo(({isAdmin}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [search, setSearch] = useState('');
@@ -110,6 +111,6 @@ const Navbar = ({isAdmin}) => {
       )}
     </nav>
   );
-};
+});
 
 export default Navbar;
