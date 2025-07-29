@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { memo } from 'react';
 
-export default function NotFound() {
+const NotFound = memo(function NotFound() {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-800 p-6">
@@ -21,4 +22,6 @@ export default function NotFound() {
       </button>
     </div>
   );
-}
+});
+
+export default NotFound;
