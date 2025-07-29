@@ -70,15 +70,15 @@ npm run test
 The frontend communicates with a backend API. Set the `BASE_URL` in `constants.js` or via environment variables.
 
 ### Main Endpoints
-- `GET /restaurants` — List all restaurants
-- `POST /restaurants/filter` — Filter restaurants by criteria
-- `GET /restaurants/:id` — Get details for a specific restaurant
-- `POST /auth/login` — User login
-- `POST /auth/signup` — User registration
-- `POST /reservations` — Create a reservation
-- `GET /reservations/user` — Get user reservations
-- `GET /reviews/:restaurantId` — Get reviews for a restaurant
-- `POST /reviews` — Add a review
+- `GET /restaurants` - List all restaurants
+- `POST /restaurants/filter` - Filter restaurants by criteria
+- `GET /restaurants/:id` - Get details for a specific restaurant
+- `POST /auth/login` - User login
+- `POST /auth/signup` - User registration
+- `POST /reservations` - Create a reservation
+- `GET /reservations/user` - Get user reservations
+- `GET /reviews/:restaurantId` - Get reviews for a restaurant
+- `POST /reviews` - Add a review
 
 > **Note:** All endpoints requiring authentication expect a JWT token in the `Authorization` header.
 
